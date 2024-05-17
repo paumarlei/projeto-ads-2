@@ -1,0 +1,47 @@
+:root {
+  --length: 100px;
+  --image_size: 200px;
+  --space: 5px;
+}
+
+body {
+  min-height: 100vh; /*tamanho padrão de página, pegando a extensão da tela*/
+  display: grid;
+  place-items: center;
+  background: black; /*ou #000000*/
+}
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(6, var(--length));
+  grid-template-rows: repeat(2, var(--length));
+  gap: var(--space);
+
+  &:has(:hover) img:not(:hover),
+  &:has(:focus) img:not(:focus) {
+    filter: brightness(0.5) contrast(0.5);
+  }
+}
+
+& img {
+  object-fit: cover;
+  width: calc(var(--image_size));
+  height: calc(var(--image_size));
+  clip-path: polygon(50% 0, 100% 50%, 50% 100%, 0 50%);
+  transition: clip-path 0.25s, filter 0.75s;
+}
+
+.galeria {
+  & img {
+    grid-column: auto / span 2;
+    border-radius: 5px;
+
+    &:nth-child(5n - 1) { grid-column: 2 / span 2;}
+
+    &:hover, &:focus {
+      clip-path: inset(0);
+      z-index: 1;
+      transition: clip-path 0.25s, filter 0.25s;
+    }
+  }
+}
